@@ -1,0 +1,19 @@
+{
+  "name": "laiki-r2ls",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "remote": "wrangler dev --remote",
+    "dev": "wrangler dev",
+    "start": "wrangler dev"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240222.0",
+    "@types/node": "^20.5.7",
+    "@types/service-worker-mock": "^2.0.1",
+    "wrangler": "^3.0.0"
+  }
+}
