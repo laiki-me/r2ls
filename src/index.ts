@@ -1,11 +1,14 @@
-import { ListOptions } from "types";
+export interface Env {
+  BUCKET: R2Bucket,
+  AUTH_KEY: string,
+}
 
 // Check requests for a pre-shared secret
-const hasValidHeader = (request, env) => {
+const hasValidHeader = (request: Request, env: Env) => {
   return request.headers.get('X-Auth-Key') === env.AUTH_KEY;
 };
 
-function authorizeRequest(request, env) {
+function authorizeRequest(request: Request, env: Env) {
   switch (request.method) {
     case 'GET':
       return hasValidHeader(request, env);
@@ -15,7 +18,7 @@ function authorizeRequest(request, env) {
 }
 
 export default {
-	async fetch(request, env) {
+	async fetch(request: Request, env: Env) {
 		if (!authorizeRequest(request, env)) {
       return new Response('Forbidden', { status: 403 });
     }
@@ -24,17 +27,15 @@ export default {
 		const prefix = url.pathname.slice(1);
 		const cursor = url.searchParams.get('cursor');
 		const onlyKeys = url.searchParams.get('onlyKeys') === 'true';
-		const listOptions: ListOptions = { prefix, limit: 1000 };
+		const listOptions: R2ListOptions = { prefix, limit: 1000 };
 
 		if (cursor) {
 			listOptions.cursor = cursor;
 		}
 
-		const BUCKET = env.BUCKET as R2Bucket;
-
 		switch (request.method) {
 			case 'GET':
-				const listResponse = await BUCKET.list(listOptions);
+				const listResponse = await env.BUCKET.list(listOptions);
 				const list = {
 					...listResponse,
 					keys: [] as R2Object['key'][] | string[] | undefined,
