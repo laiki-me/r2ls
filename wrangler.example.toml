@@ -1,8 +1,8 @@
-name = "r2lsr"
+name = "r2lsr" # The name of you worker
 main = "src/index.ts"
 compatibility_date = "2024-03-04"
 
-account_id = "YOUR_ID"
+account_id = "YOUR_ID" # You Cloudflare account id
 workers_dev = true
 
 [[r2_buckets]]
