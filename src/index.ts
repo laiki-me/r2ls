@@ -37,8 +37,8 @@ export default {
 			case 'GET':
 				const listResponse = await env.BUCKET.list(listOptions);
 				const list = {
-					...listResponse,
 					keys: [] as R2Object['key'][] | string[] | undefined,
+					...listResponse,
 				};
 
 				if (onlyKeys) {
